@@ -45,17 +45,17 @@ const AboutUsPage: React.FC = () => {
       const foldersResponse = await fetch(
         `https://www.googleapis.com/drive/v3/files?q='${PHOTOSETS_FOLDER_ID}'+in+parents+and+mimeType='application/vnd.google-apps.folder'+and+name='staf sets'&key=${API_KEY}&fields=files(id,name)&pageSize=1`
       );
-      
+
       if (!foldersResponse.ok) {
         console.warn('Failed to fetch staf sets folder');
         setTeamMembers([]);
         setLoading(false);
         return;
       }
-      
+
       const foldersData = await foldersResponse.json();
       const stafSetsFolder = foldersData.files?.[0];
-      
+
       if (!stafSetsFolder) {
         console.warn('staf sets folder not found');
         setTeamMembers([]);
@@ -67,14 +67,14 @@ const AboutUsPage: React.FC = () => {
       const teamFoldersResponse = await fetch(
         `https://www.googleapis.com/drive/v3/files?q='${stafSetsFolder.id}'+in+parents+and+mimeType='application/vnd.google-apps.folder'&key=${API_KEY}&fields=files(id,name)&pageSize=100`
       );
-      
+
       if (!teamFoldersResponse.ok) {
         console.warn('Failed to fetch team member folders');
         setTeamMembers([]);
         setLoading(false);
         return;
       }
-      
+
       const teamFoldersData = await teamFoldersResponse.json();
       const folders = teamFoldersData.files || [];
 
@@ -86,33 +86,33 @@ const AboutUsPage: React.FC = () => {
             const filesResponse = await fetch(
               `https://www.googleapis.com/drive/v3/files?q='${folder.id}'+in+parents&key=${API_KEY}&fields=files(id,name,mimeType)&pageSize=100`
             );
-            
+
             if (!filesResponse.ok) {
               console.warn(`Failed to fetch files for ${folder.name}`);
               return null;
             }
-            
+
             const filesData = await filesResponse.json();
             const files = filesData.files || [];
-            
+
             // Find photo (image file)
-            const photoFile = files.find((file: DriveFile) => 
+            const photoFile = files.find((file: DriveFile) =>
               file.mimeType && file.mimeType.startsWith('image/')
             );
-            
+
             // Find description file
-            const descriptionFile = files.find((file: DriveFile) => 
-              file.name.toLowerCase().includes('staf description') || 
+            const descriptionFile = files.find((file: DriveFile) =>
+              file.name.toLowerCase().includes('staf description') ||
               file.name.toLowerCase().includes('staff description')
             );
-            
+
             let role = 'Team Member'; // Default role
-            
+
             // Try to get role from description file
             if (descriptionFile) {
               try {
                 let descriptionText = '';
-                
+
                 if (descriptionFile.mimeType === 'application/vnd.google-apps.document') {
                   // Google Docs file
                   const textResponse = await fetch(
@@ -130,7 +130,7 @@ const AboutUsPage: React.FC = () => {
                     descriptionText = await textResponse.text();
                   }
                 }
-                
+
                 if (descriptionText.trim()) {
                   role = descriptionText.trim();
                 }
@@ -138,7 +138,7 @@ const AboutUsPage: React.FC = () => {
                 console.warn(`Failed to load description for ${folder.name}:`, descError);
               }
             }
-            
+
             return {
               id: folder.id,
               name: folder.name,
@@ -182,10 +182,7 @@ const AboutUsPage: React.FC = () => {
       title: t('about.service3.title'),
       description: t('about.service3.description')
     },
-    {
-      title: t('about.service4.title'),
-      description: t('about.service4.description')
-    }
+
 
   ];
 
@@ -216,9 +213,9 @@ const AboutUsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
-      
+
       <div className="container mx-auto px-4 md:px-8 py-8 md:py-12 max-w-7xl">
-        
+
         {/* Hero Section */}
         <div className="mb-16 md:mb-24">
           <h2 className="text-lg md:text-xl text-gray-400 mb-4 font-light">
@@ -246,9 +243,28 @@ const AboutUsPage: React.FC = () => {
                   <p className="text-gray-300 text-base md:text-lg leading-relaxed">
                     {service.description}
                   </p>
+
                 </div>
+
               </div>
             ))}
+          </div>
+
+          <div className="text-start mb-10 md:mb-24">
+            <h1 className="mt-16  text-3xl md:text-4xl lg:text-5xl font-light mb-8 leading-tight">
+              {t('about.hero.title2')}
+            </h1>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list1')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list2')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list3')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list4')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list5')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list6')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list7')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list8')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list9')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list10')}</p>
+            <p className='text-gray-300 text-base md:text-lg pb-3.5 leading-relaxed'>{t('product.list11')}</p>
           </div>
         </div>
 
@@ -306,10 +322,10 @@ const AboutUsPage: React.FC = () => {
 
         {/* CTA Section */}
         <div className="text-center mb-16 md:mb-24">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 md:mb-12">
+          {/* <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-8 md:mb-12">
             {t('about.readyTitle')}
-          </h2>
-          
+          </h2> */}
+
           <button
             onClick={() => navigate('/contacts')}
             className="px-8 md:px-12 py-3 md:py-4 border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 rounded-lg text-base md:text-lg font-medium tracking-wide"

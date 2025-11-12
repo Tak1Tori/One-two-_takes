@@ -348,43 +348,6 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
           </div>
         )}
 
-        {/* Photos Section */}
-        {mediaCategories.photos.length > 0 && (
-          <div className="mb-16">
-            <h2 className="text-2xl md:text-3xl font-light mb-8 text-center">
-              {t('photosets.photos')}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {mediaCategories.photos.map((file, index) => (
-                <div
-                  key={file.id}
-                  className="bg-gray-800 rounded-lg overflow-hidden cursor-pointer group relative aspect-square"
-                  onClick={() => {
-                    setActiveCategory('photos');
-                    openModal(index);
-                  }}
-                >
-                  <img
-                    src={getMediaUrl(file, 'thumbnail')}
-                    alt={file.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      const img = e.target as HTMLImageElement;
-                      const fileId = file.id;
-                      if (!img.src.includes('uc?export=view')) {
-                        img.src = `https://drive.google.com/uc?export=view&id=${fileId}`;
-                      } else if (!img.src.includes('uc?id=')) {
-                        img.src = `https://drive.google.com/uc?id=${fileId}`;
-                      }
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Videos Section */}
         {mediaCategories.videos.length > 0 && (
           <div className="mb-16">
@@ -427,6 +390,44 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
             </div>
           </div>
         )}
+        {/* Photos Section */}
+        {mediaCategories.photos.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-2xl md:text-3xl font-light mb-8 text-center">
+              {t('photosets.photos')}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {mediaCategories.photos.map((file, index) => (
+                <div
+                  key={file.id}
+                  className="bg-gray-800 rounded-lg overflow-hidden cursor-pointer group relative aspect-square"
+                  onClick={() => {
+                    setActiveCategory('photos');
+                    openModal(index);
+                  }}
+                >
+                  <img
+                    src={getMediaUrl(file, 'thumbnail')}
+                    alt={file.name}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      const fileId = file.id;
+                      if (!img.src.includes('uc?export=view')) {
+                        img.src = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                      } else if (!img.src.includes('uc?id=')) {
+                        img.src = `https://drive.google.com/uc?id=${fileId}`;
+                      }
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+
 
         {/* Backstage Section */}
         {mediaCategories.backstage.length > 0 && (

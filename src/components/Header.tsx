@@ -11,8 +11,13 @@ const Header: React.FC = () => {
   return (
     <header className="w-full h-16 md:h-20 lg:h-24 bg-black text-white py-4 px-4 md:px-8 lg:px-24 flex items-center justify-between">
       {/* Logo */}
-      <img className="w-20 h-16 md:w-24 md:h-18 lg:w-30 lg:h-22" src="/assets/Gen4_logo_film_productuon_one_two_takes_minimalism_camera_a_2,_3188451074 (1).png" alt="" />
-
+      <Link to="/">
+        <img
+          className="w-20 h-16 md:w-24 md:h-18 lg:w-30 lg:h-22 cursor-pointer"
+          src="/assets/Gen4_logo_film_productuon_one_two_takes_minimalism_camera_a_2,_3188451074 (1).png"
+          alt="Logo"
+        />
+      </Link>
       {/* Mobile menu button */}
       <button
         className="md:hidden w-8 h-8 flex items-center justify-center"

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Phone, Mail } from 'lucide-react';
+import { Phone, Mail, Instagram, Youtube } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const ContactsPage: React.FC = () => {
@@ -72,12 +72,12 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
       // For now, we'll use mailto as a fallback
       // In production, you would integrate with an email service like EmailJS, Formspree, or a backend API
       const mailtoLink = `mailto:Onetwotakes@gmail.com?subject=${encodeURIComponent(emailContent.subject)}&body=${encodeURIComponent(emailContent.body)}`;
-      
+
       // Open default email client
       window.location.href = mailtoLink;
-      
+
       setSubmitMessage(t('contacts.success'));
-      
+
       // Reset form after successful submission
       setTimeout(() => {
         setFormData({
@@ -111,37 +111,36 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
-      
+
       <div className="container mx-auto px-4 md:px-8 py-8 md:py-12 lg:py-16 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16">
-          
+
           {/* Left Column - Contact Information */}
           <div className="space-y-6 md:space-y-8">
             <div>
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-light mb-4 md:mb-6">{t('contacts.title')}</h1>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
-                {t('contacts.description')}
-              </p>
+
             </div>
 
             {/* Contact Details */}
-            <div className="space-y-4 md:space-y-6">
-              <div className="flex items-center gap-4">
-                <Phone className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
-                <span className="text-lg md:text-xl">+49 176 327 472 66</span>
-              </div>
-              
-              <div className="flex items-center gap-4">
-                <Mail className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
-                <span className="text-lg md:text-xl">Onetwotakes@gmail.com</span>
-              </div>
+            <div className="flex items-center gap-4">
+              <Mail className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
+              <span className="text-lg md:text-xl">Onetwotakes@gmail.com</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <Instagram className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
+              <a className="text-lg md:text-xl" href="https://www.instagram.com/onetwotakes_prod/" target="_blank" rel="noopener noreferrer">Onetwotakes_prod</a>
+            </div>
+            <div className="flex items-center gap-4">
+              <Youtube className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
+              <a className="text-lg md:text-xl" href="https://www.youtube.com/@Onetwotakes_prod" target="_blank" rel="noopener noreferrer">Onetwotakes</a>
             </div>
           </div>
 
           {/* Right Column - Contact Form */}
           <div className="space-y-4 md:space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-              
+
               {/* Name Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -157,22 +156,6 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 text-xs md:text-sm mb-2">{t('contacts.lastName')}</label>
-                  <input
-                    type="text"
-                    name="nachname"
-                    value={formData.nachname}
-                    onChange={handleInputChange}
-                    placeholder="Surname"
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-white text-black placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/20 text-sm md:text-base"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Email and Phone */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
                   <label className="block text-gray-400 text-xs md:text-sm mb-2">{t('contacts.email')}</label>
                   <input
                     type="email"
@@ -184,6 +167,12 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
                     required
                   />
                 </div>
+
+              </div>
+
+              {/* Email and Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
                 <div>
                   <label className="block text-gray-400 text-xs md:text-sm mb-2">{t('contacts.phone')}</label>
                   <input
@@ -191,7 +180,7 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
                     name="telefon"
                     value={formData.telefon}
                     onChange={handleInputChange}
-                    placeholder="87019717702"
+                    placeholder="+49123456789"
                     className="w-full px-3 md:px-4 py-2 md:py-3 bg-white text-black placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/20 text-sm md:text-base"
                     required
                   />
@@ -199,30 +188,7 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
               </div>
 
               {/* Date and Products */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-gray-400 text-xs md:text-sm mb-2">{t('contacts.shootingDate')}</label>
-                  <input
-                    type="date"
-                    name="datum"
-                    value={formData.datum}
-                    onChange={handleInputChange}
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-white text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-white/20 text-sm md:text-base"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-400 text-xs md:text-sm mb-2">{t('contacts.products')}</label>
-                  <input
-                    type="text"
-                    name="produkte"
-                    value={formData.produkte}
-                    onChange={handleInputChange}
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-white text-black placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/20 text-sm md:text-base"
-                    required
-                  />
-                </div>
-              </div>
+
 
               {/* Additional Information */}
               <div>
@@ -236,7 +202,7 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
                 />
               </div>
 
-            
+
               {/* Submit Button */}
               <button
                 type="submit"
@@ -248,9 +214,8 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
 
               {/* Submit Message */}
               {submitMessage && (
-                <div className={`text-center p-3 md:p-4 rounded-lg text-sm md:text-base ${
-                  submitMessage.includes('Fehler') ? 'bg-red-900/20 text-red-400' : 'bg-green-900/20 text-green-400'
-                }`}>
+                <div className={`text-center p-3 md:p-4 rounded-lg text-sm md:text-base ${submitMessage.includes('Fehler') ? 'bg-red-900/20 text-red-400' : 'bg-green-900/20 text-green-400'
+                  }`}>
                   {submitMessage}
                 </div>
               )}

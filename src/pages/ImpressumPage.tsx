@@ -1,3 +1,4 @@
+// ImpressumPage.tsx
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -5,41 +6,39 @@ import Footer from "../components/Footer";
 const ImpressumPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
-      {/* Header */}
       <Header />
 
-      {/* Main Content */}
       <main className="flex-grow max-w-4xl mx-auto px-4 md:px-8 py-16 leading-relaxed">
         <h1 className="text-3xl md:text-4xl font-semibold text-center mb-12">
           Impressum
         </h1>
 
-        <section className="space-y-8 text-wite">
+        <section className=" text-wite">
           <div>
-            <h2 className="text-xl font-semibold mb-3">Angaben gemäß § 5 TMG</h2>
+            <p>Angaben gemäß § 5 TMG</p>
             <p>Artyom Afoshin Fotograf / Videograf</p>
             <p>Europa-Allee 31</p>
             <p>60327 Frankfurt am Main</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">Kontakt</h2>
+            <p>Kontakt</p>
             <p>Telefon: +49 176 327 47 266</p>
             <p>E-Mail: onetwotakes@gmail.com</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">Umsatzsteuer Identifikationsnummer (USt-ID)</h2>
+            <p>Umsatzsteuer Identifikationsnummer (USt-ID)</p>
             <p>32/202/01344</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+            <p>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</p>
             <p>Artyom Afoshin</p>
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">EU-Streitschlichtung</h2>
+            <p>EU-Streitschlichtung</p>
             <p>
               Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:&nbsp;
               <a
@@ -59,7 +58,7 @@ const ImpressumPage: React.FC = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">Haftung für Inhalte</h2>
+            <p>Haftung für Inhalte</p>
             <p>
               Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den
               allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
@@ -75,7 +74,7 @@ const ImpressumPage: React.FC = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">Haftung für Links</h2>
+            <p>Haftung für Links</p>
             <p>
               Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss
               haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte
@@ -90,7 +89,7 @@ const ImpressumPage: React.FC = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">Urheberrecht</h2>
+            <p>Urheberrecht</p>
             <p>
               Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen
               Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
@@ -106,7 +105,7 @@ const ImpressumPage: React.FC = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-3">Datenschutz</h2>
+            <p>Datenschutz</p>
             <p>
               Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf
               unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder E-Mail-Adressen) erhoben werden,
@@ -124,7 +123,7 @@ const ImpressumPage: React.FC = () => {
               widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der
               unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.
             </p>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className=" text-sm text-gray-500">
               Quelle:{" "}
               <a
                 href="https://www.e-recht24.de"
@@ -139,7 +138,6 @@ const ImpressumPage: React.FC = () => {
         </section>
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

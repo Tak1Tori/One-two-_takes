@@ -68,7 +68,7 @@ const AboutUs: React.FC = () => {
               {t('hero.title')}
             </h2>
             <p className="text-base md:text-lg text-gray-300 mb-8 md:mb-12 leading-relaxed text-center max-w-2xl mx-auto">
-              "{t('hero.description')}"
+              {t('hero.description')}
             </p>
 
             {/* Image Gallery */}

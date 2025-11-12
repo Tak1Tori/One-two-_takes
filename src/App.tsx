@@ -55,7 +55,7 @@ function App() {
             >
             </Route>
             <Route
-            path ="/Datenschutzerklärung"
+            path ="/privacy-policy"
             element ={ <DatenschutzPage/>}
             >
             </Route>

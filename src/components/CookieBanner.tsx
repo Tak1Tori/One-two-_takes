@@ -14,7 +14,7 @@ const CookieBanner = () => {
         enableDeclineButton
         cookieName="userConsent"
         style={{
-          background: "#2B373B",
+          background: "black",
           color: "white",
           fontSize: "14px",
           padding: "16px",
