@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useLanguage } from '../contexts/LanguageContext';
-import { Phone, Mail, Instagram, Youtube } from 'lucide-react';
+import { Phone, Mail, Instagram, Youtube,Linkedin } from 'lucide-react';
+
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
@@ -36,6 +37,10 @@ const Footer: React.FC = () => {
             <div className="flex mb-2 md:mb-8 text-center md:text-left items-center gap-4">
               <Youtube className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
               <a className="text-lg md:text-xl" href="https://www.youtube.com/@Onetwotakes_prod" target="_blank" rel="noopener noreferrer">Onetwotakes</a>
+            </div>
+            <div className="flex items-center gap-4">
+              <Linkedin className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
+              <a className="text-lg md:text-xl" href="https://www.linkedin.com/in/artyom-afoshin-05797721b/" target="_blank" rel="noopener noreferrer">Artyom Afoshin</a>
             </div>
           </div>
           <div className='flex flex-col mt-4 align-middle'>
