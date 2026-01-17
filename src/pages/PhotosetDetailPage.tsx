@@ -31,6 +31,10 @@ interface PhotosetDetailPageProps {
 const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
   const { t } = useLanguage();
   const { photosetId } = useParams<{ photosetId: string }>();
+  const realFolderId = React.useMemo(() => {
+    if (!photosetId) return null;
+    return photosetId.split('-').pop() || null;
+  }, [photosetId]);
   const navigate = useNavigate();
   const [mediaCategories, setMediaCategories] = useState<MediaCategories>({
     photos: [],
@@ -46,6 +50,8 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number | null>(null);
   const [mainVideo, setMainVideo] = useState<DriveFile | null>(null);
 
+  
+
   // Helper: return current category array
   const getCurrentMedia = (): DriveFile[] => {
     return mediaCategories[activeCategory] || [];
@@ -53,7 +59,11 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
 
   useEffect(() => {
     const fetchPhotosetDetails = async () => {
-      if (!photosetId) return;
+      if (!photosetId || !realFolderId) {
+        setError('Invalid photoset URL');
+        setLoading(false);
+        return;
+      }
 
       try {
         setLoading(true);
@@ -61,7 +71,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
 
         // 1) Get folder (photoset) info (name)
         const folderResponse = await fetch(
-          `https://www.googleapis.com/drive/v3/files/${photosetId}?key=${apiKey}&fields=name`
+          `https://www.googleapis.com/drive/v3/files/${realFolderId}?key=${apiKey}&fields=name`
         );
 
         if (!folderResponse.ok) {
@@ -74,7 +84,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
         // 2) List media files (images + videos) in folder
         // This query gets files with mimeType containing 'image' or 'video'
         const mediaResponse = await fetch(
-          `https://www.googleapis.com/drive/v3/files?q='${photosetId}'+in+parents+and+(mimeType+contains+'image'+or+mimeType+contains+'video')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=500`
+          `https://www.googleapis.com/drive/v3/files?q='${realFolderId}'+in+parents+and+(mimeType+contains+'image'+or+mimeType+contains+'video')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=500`
         );
 
         if (!mediaResponse.ok) {
@@ -115,7 +125,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
         // 3) Try to find a plain text "descriptions" file (.txt preferred)
         // First search for plain text file named 'descriptions'
         const descriptionsResponse = await fetch(
-          `https://www.googleapis.com/drive/v3/files?q='${photosetId}'+in+parents+and+(name='descriptions' or name='descriptions.txt')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=1`
+          `https://www.googleapis.com/drive/v3/files?q='${realFolderId}'+in+parents+and+(name='descriptions' or name='descriptions.txt')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=1`
         );
 
         if (descriptionsResponse.ok) {
@@ -167,7 +177,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
 
         // 4) Social links: prefer plain text file named 'other' or 'social' etc.
         const otherResp = await fetch(
-          `https://www.googleapis.com/drive/v3/files?q='${photosetId}'+in+parents+and+(name='other' or name='other.txt' or name='social' or name='social.txt')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=1`
+          `https://www.googleapis.com/drive/v3/files?q='${realFolderId}'+in+parents+and+(name='other' or name='other.txt' or name='social' or name='social.txt')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=1`
         );
 
         if (otherResp.ok) {

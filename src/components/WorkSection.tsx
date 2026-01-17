@@ -49,7 +49,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ apiKey, folderId }) => {
     return `https://drive.google.com/thumbnail?id=${fileId}&sz=w800-h600`;
   };
 
-  // ✅ Auto-slide for images
+  // Auto-slide for images
   useEffect(() => {
     if (workImages.length === 0) return;
 
@@ -57,7 +57,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ apiKey, folderId }) => {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === workImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000); // change every 3s
+    }, 3000); 
 
     return () => clearInterval(interval);
   }, [workImages.length]);

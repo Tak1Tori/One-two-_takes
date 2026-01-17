@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Phone, Mail, Instagram, Youtube,} from 'lucide-react';
+import { Phone, Mail, Instagram, Youtube,Linkedin} from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const ContactsPage: React.FC = () => {
@@ -102,11 +102,7 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
     }
   };
 
-  // const imageCountOptions = [
-  //   '1-10', '10-20', '20-30',
-  //   '30-40', '40-50', '50-60',
-  //   '60-70', '70-80', '80-90'
-  // ];
+
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -138,6 +134,10 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
             <div className="flex items-center gap-4">
               <Youtube className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
               <a className="text-lg md:text-xl" href="https://www.youtube.com/@Onetwotakes_prod" target="_blank" rel="noopener noreferrer">Onetwotakes</a>
+            </div>
+            <div className="flex items-center gap-4">
+              <Linkedin className="w-5 h-5 md:w-6 md:h-6 text-white flex-shrink-0" />
+              <a className="text-lg md:text-xl" href="https://www.linkedin.com/in/artyom-afoshin-05797721b/" target="_blank" rel="noopener noreferrer">Artyom Afoshin</a>
             </div>
           </div>
 

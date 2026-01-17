@@ -28,7 +28,15 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedPhotoset, setSelectedPhotoset] = useState<Photoset | null>(null);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
-  const [showMore, setShowMore] = useState(false);
+  
+
+  const slugify = (text: string) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+
 
   // Fetch photosets folders and their photos
   useEffect(() => {
@@ -106,7 +114,8 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
 
   const openPhotosetModal = (photoset: Photoset) => {
     // Navigate to photoset detail page instead of opening modal
-    navigate(`/photosets/${photoset.id}`);
+    navigate(`/photosets/${slugify(photoset.name)}-${photoset.id}`);
+
   };
 
   const closeModal = () => {
@@ -146,7 +155,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
     );
   }
 
-  const visiblePhotosets = showMore ? photosets : photosets.slice(0, 6);
+  const visiblePhotosets = photosets;
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -211,17 +220,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
           ))}
         </div>
 
-        {/* Show More Button */}
-        {photosets.length > 6 && (
-          <div className="text-center mt-8 md:mt-16 mb-8">
-            <button
-              onClick={() => setShowMore(!showMore)}
-              className="px-6 md:px-8 py-3 border-2 border-white/30 text-white hover:border-white/60 hover:bg-white/10 transition-all duration-300 rounded-lg text-base md:text-lg font-light tracking-wide"
-            >
-              {showMore ? 'Show Less' : 'Show More'}
-            </button>
-          </div>
-        )}
+       
 
         {photosets.length === 0 && (
           <div className="text-center py-12 md:py-20">

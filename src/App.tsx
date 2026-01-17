@@ -15,7 +15,7 @@ function App() {
   const FOLDER_ID = import.meta.env.VITE_MAIN_FOLDER_ID;
   const PHOTOSETS_FOLDER_ID = import.meta.env.VITE_PHOTOSETS_FOLDER_ID;
   const CAROUSEL_FOLDER_ID = import.meta.env.VITE_CAROUSEL_FOLDER_ID;
-
+ const VITE_STAF_INFO_FOLDER_ID = import.meta.env.VITE_STAF_INFO_FOLDER_ID;
   return (
     <LanguageProvider>
       <Router>
@@ -33,7 +33,7 @@ function App() {
         
            <Route
               path="/photosets/:photosetId"
-              element={<PhotosetDetailPage apiKey={API_KEY} photosetsFolder={PHOTOSETS_FOLDER_ID} />}
+              element={<PhotosetDetailPage apiKey={API_KEY}  />}
             />
 
              <Route
@@ -42,7 +42,7 @@ function App() {
             />
             <Route
               path="/about"
-              element={<AboutUsPage />}
+              element={<AboutUsPage apiKey={API_KEY} folderId={VITE_STAF_INFO_FOLDER_ID} />}
             />
             <Route
             path ="/AGB"
