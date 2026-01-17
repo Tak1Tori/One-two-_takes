@@ -199,7 +199,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ apiKey, folderId }) => {
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
           ) : (
-            <div className="grid grid-cols-1  gap-6 md:justify-items-center align-middle">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:justify-items-center align-middle">
               {TeamMembers.map(member => (
                 <div
                   key={member.id}
