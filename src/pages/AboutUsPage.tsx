@@ -203,7 +203,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ apiKey, folderId }) => {
               {TeamMembers.map(member => (
                 <div
                   key={member.id}
-                  className="bg-white/5 rounded-lg p-4  w-full max-w-xl md:h-100"
+                  className="bg-white/5 rounded-2xl p-4  w-full max-w-90 "
                 >
                   <div className="flex justify-center mb-3">
                     <img
