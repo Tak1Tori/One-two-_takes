@@ -30,14 +30,6 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   
 
-  const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
-
-
   // Fetch photosets folders and their photos
   useEffect(() => {
     const fetchPhotosets = async () => {
@@ -114,8 +106,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
 
   const openPhotosetModal = (photoset: Photoset) => {
     // Navigate to photoset detail page instead of opening modal
-    navigate(`/photosets/${slugify(photoset.name)}-${photoset.id}`);
-
+    navigate(`/photosets/${photoset.id}`);
   };
 
   const closeModal = () => {
@@ -220,8 +211,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
           ))}
         </div>
 
-       
-
+        
         {photosets.length === 0 && (
           <div className="text-center py-12 md:py-20">
             <Folder className="w-16 h-16 mx-auto mb-4 text-gray-600" />

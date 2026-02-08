@@ -33,7 +33,7 @@ function App() {
         
            <Route
               path="/photosets/:photosetId"
-              element={<PhotosetDetailPage apiKey={API_KEY}  />}
+              element={<PhotosetDetailPage apiKey={API_KEY} photosetsFolder={PHOTOSETS_FOLDER_ID} />}
             />
 
              <Route

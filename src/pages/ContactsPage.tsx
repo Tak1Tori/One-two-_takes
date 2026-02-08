@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Phone, Mail, Instagram, Youtube,Linkedin} from 'lucide-react';
+import { Phone, Mail, Instagram, Youtube, Linkedin } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const ContactsPage: React.FC = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({
     vorname: '',
-    nachname: '',
+
     email: '',
     telefon: '',
-    datum: '',
-    produkte: '',
+
+
     informationen: '',
     anzahlBilder: ''
   });
@@ -52,14 +52,9 @@ Neue Kontaktanfrage:
 
 Persönliche Daten:
 - Vorname: ${formData.vorname}
-- Nachname: ${formData.nachname}
 - E-Mail: ${formData.email}
 - Telefonnummer: ${formData.telefon}
 
-Projektdetails:
-- Datum der Dreharbeiten: ${formData.datum}
-- Welche Produkte: ${formData.produkte}
-- Anzahl der Bilder je Auftrag: ${selectedImageCount}
 
 Weitere Informationen:
 ${formData.informationen}
@@ -69,8 +64,8 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
         `
       };
 
-      // For now, we'll use mailto as a fallback
-      // In production, you would integrate with an email service like EmailJS, Formspree, or a backend API
+
+
       const mailtoLink = `mailto:Onetwotakes@gmail.com?subject=${encodeURIComponent(emailContent.subject)}&body=${encodeURIComponent(emailContent.body)}`;
 
       // Open default email client
@@ -82,11 +77,8 @@ Diese Nachricht wurde über das Kontaktformular der Website gesendet.
       setTimeout(() => {
         setFormData({
           vorname: '',
-          nachname: '',
           email: '',
           telefon: '',
-          datum: '',
-          produkte: '',
           informationen: '',
           anzahlBilder: ''
         });
