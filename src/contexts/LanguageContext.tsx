@@ -80,7 +80,7 @@ const translations: Translations = {
     'contacts.imageCount': 'Number of Images per Order (non-binding)',
     'contacts.sendRequest': 'Send Request',
     'contacts.sending': 'Sending...',
-    'contacts.success': 'Email client opened. Please send the email.',
+    'contacts.success': 'Your letter has been sent.',
     'contacts.error': 'Error sending message. Please try again.',
 
     // Photosets Page
@@ -186,7 +186,7 @@ const translations: Translations = {
     'contacts.imageCount': 'Anzahl der Bilder je Auftrag (unverbindlich)',
     'contacts.sendRequest': 'Anfrage senden',
     'contacts.sending': 'Wird gesendet...',
-    'contacts.success': 'E-Mail-Client wurde geöffnet. Bitte senden Sie die E-Mail ab.',
+    'contacts.success': 'Ihr Brief wurde versandt.',
     'contacts.error': 'Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut.',
 
     // Photosets Page
