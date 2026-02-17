@@ -36,11 +36,11 @@ const Header: React.FC = () => {
           {t('nav.home')}
         </Link>
         <Link
-          to="/photosets"
-          className={`hover:text-gray-300 transition-colors duration-200 ${location.pathname === '/photosets' ? 'text-white' : 'text-gray-400'
+          to="/projects"
+          className={`hover:text-gray-300 transition-colors duration-200 ${location.pathname === '/projects' ? 'text-white' : 'text-gray-400'
             }`}
         >
-          {t('nav.photosets')}
+          {t('nav.projects')}
         </Link>
         <Link
           to="/about"
@@ -89,12 +89,12 @@ const Header: React.FC = () => {
               {t('nav.home')}
             </Link>
             <Link
-              to="/photosets"
-              className={`hover:text-gray-300 transition-colors duration-200 py-2 ${location.pathname === '/photosets' ? 'text-white' : 'text-gray-400'
+              to="/projects"
+              className={`hover:text-gray-300 transition-colors duration-200 py-2 ${location.pathname === '/projects' ? 'text-white' : 'text-gray-400'
                 }`}
               onClick={() => setIsMenuOpen(false)}
             >
-              {t('nav.photosets')}
+              {t('nav.projects')}
             </Link>
             <Link
               to="/about"

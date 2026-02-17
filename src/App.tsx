@@ -27,12 +27,12 @@ function App() {
               element={<HomePage apiKey={API_KEY} folderId={FOLDER_ID} carouselFolderId={CAROUSEL_FOLDER_ID} />}
             />
             <Route
-              path="/photosets"
+              path="/projects"
               element={<PhotosetsPage apiKey={API_KEY} folderId={PHOTOSETS_FOLDER_ID} />}
             />
         
            <Route
-              path="/photosets/:photosetId"
+              path="/projects/:photosetId"
               element={<PhotosetDetailPage apiKey={API_KEY} photosetsFolder={PHOTOSETS_FOLDER_ID} />}
             />
 

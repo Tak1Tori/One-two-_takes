@@ -106,7 +106,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
 
   const openPhotosetModal = (photoset: Photoset) => {
     // Navigate to photoset detail page instead of opening modal
-    navigate(`/photosets/${photoset.id}`);
+    navigate(`/projects/${photoset.id}`);
   };
 
   const closeModal = () => {
@@ -152,7 +152,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <div className="text-center py-8 md:py-12">
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-wider">{t('photosets.pageTitle')}</h1>
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-wider">{t('projects.pageTitle')}</h1>
       </div>
 
       {/* Main Layout */}

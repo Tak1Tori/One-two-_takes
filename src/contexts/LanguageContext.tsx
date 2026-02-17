@@ -21,7 +21,7 @@ const translations: Translations = {
   en: {
     // Header
     'nav.home': 'Home',
-    'nav.photosets': 'Projects',
+    'nav.projects': 'Projects',
     'nav.about': 'About',
     'nav.contacts': 'Contacts',
 
@@ -126,7 +126,7 @@ const translations: Translations = {
   de: {
     // Header
     'nav.home': 'Startseite',
-    'nav.photosets': 'Projekte',
+    'nav.projects': 'Projekte',
     'nav.about': 'Über uns',
     'nav.contacts': 'Kontakt',
 
