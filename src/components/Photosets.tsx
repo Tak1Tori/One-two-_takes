@@ -203,7 +203,7 @@ const Photosets: React.FC<PhotosetsProps> = ({ apiKey, folderId }) => {
         {displayedPhotosets.length > 0 && (
           <div className="text-center mt-8 md:mt-12">
             <button
-              onClick={() => navigate('/photosets')}
+              onClick={() => navigate('/projects')}
               className="px-6 md:px-8 py-3 border-2 border-white/30 text-white hover:border-white/60 hover:bg-white/10 transition-all duration-300 rounded-lg text-base md:text-lg font-light tracking-wide"
             >
               {t('photosets.viewAll')}
