@@ -32,7 +32,7 @@ function App() {
             />
         
            <Route
-              path="/projects/:photosetId"
+              path="/projects/:slug"
               element={<PhotosetDetailPage apiKey={API_KEY} photosetsFolder={PHOTOSETS_FOLDER_ID} />}
             />
 

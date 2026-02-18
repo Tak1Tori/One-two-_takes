@@ -21,6 +21,15 @@ interface PhotosetsProps {
   folderId: string;
 }
 
+const createSlug = (name: string) => {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '');
+};
+
+
 const Photosets: React.FC<PhotosetsProps> = ({ apiKey, folderId }) => {
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -103,9 +112,10 @@ const Photosets: React.FC<PhotosetsProps> = ({ apiKey, folderId }) => {
   };
 
   // Navigate to photoset detail page
-  const openPhotoset = (photosetId: string) => {
-    navigate(`/photosets/${photosetId}`);
-  };
+  const openPhotoset = (photoset: Photoset) => {
+  const slug = createSlug(photoset.name);
+  navigate(`/projects/${slug}`);
+};
 
   if (loading) {
     return (
@@ -145,7 +155,8 @@ const Photosets: React.FC<PhotosetsProps> = ({ apiKey, folderId }) => {
             <div 
               key={photoset.id} 
               className="relative group cursor-pointer"
-              onClick={() => openPhotoset(photoset.id)}
+              onClick={() => openPhotoset(photoset)}
+
             >
               <div className="aspect-[16/10] bg-gray-800 rounded-lg overflow-hidden relative">
                 {/* Current slide image */}

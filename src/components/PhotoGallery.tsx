@@ -19,6 +19,13 @@ interface PhotoGalleryProps {
   apiKey: string;
   folderId: string;
 }
+const createSlug = (name: string) => {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '');
+};
 
 const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
   const navigate = useNavigate();
@@ -104,10 +111,10 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({ apiKey, folderId }) => {
     return `https://drive.google.com/uc?export=view&id=${fileId}`;
   };
 
-  const openPhotosetModal = (photoset: Photoset) => {
-    // Navigate to photoset detail page instead of opening modal
-    navigate(`/projects/${photoset.id}`);
-  };
+const openPhotosetModal = (photoset: Photoset) => {
+  const slug = createSlug(photoset.name);
+  navigate(`/projects/${slug}`);
+};
 
   const closeModal = () => {
     setSelectedPhotoset(null);

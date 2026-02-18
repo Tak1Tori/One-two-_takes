@@ -25,16 +25,16 @@ interface SocialLink {
 
 interface PhotosetDetailPageProps {
   apiKey: string;
-  photosetsFolder?: string;
+  photosetsFolder: string;
 }
 
-const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
+const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photosetsFolder }) => {
   const { t } = useLanguage();
-  const { photosetId } = useParams<{ photosetId: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const realFolderId = React.useMemo(() => {
-    if (!photosetId) return null;
-    return photosetId.split('-').pop() || null;
-  }, [photosetId]);
+    if (!slug) return null;
+    return slug.split('-').pop() || null;
+  }, [slug]);
   const navigate = useNavigate();
   const [mediaCategories, setMediaCategories] = useState<MediaCategories>({
     photos: [],
@@ -50,16 +50,16 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number | null>(null);
   const [mainVideo, setMainVideo] = useState<DriveFile | null>(null);
 
-  
 
-  // Helper: return current category array
+
+  // return current category array
   const getCurrentMedia = (): DriveFile[] => {
     return mediaCategories[activeCategory] || [];
   };
 
   useEffect(() => {
     const fetchPhotosetDetails = async () => {
-      if (!photosetId || !realFolderId) {
+      if (!slug) {
         setError('Invalid photoset URL');
         setLoading(false);
         return;
@@ -69,7 +69,34 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
         setLoading(true);
         setError(null);
 
-        // 1) Get folder (photoset) info (name)
+        // get all folders
+        const foldersResponse = await fetch(
+          `https://www.googleapis.com/drive/v3/files?q='${photosetsFolder}'+in+parents+and+mimeType='application/vnd.google-apps.folder'&key=${apiKey}&fields=files(id,name)&pageSize=100`
+        );
+
+        if (!foldersResponse.ok) {
+          throw new Error('Failed to fetch photosets list');
+        }
+
+        const foldersData = await foldersResponse.json();
+        const folders = foldersData.files || [];
+
+        const createSlug = (name: string) =>
+          name.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+
+        const matchedFolder = folders.find(
+          (folder: DriveFile) => createSlug(folder.name) === slug
+        );
+
+        if (!matchedFolder) {
+          throw new Error('Photoset not found');
+        }
+
+        const realFolderId = matchedFolder.id;
+        setPhotosetName(matchedFolder.name);
+
+
+        //  Get folder (photoset) info (name)
         const folderResponse = await fetch(
           `https://www.googleapis.com/drive/v3/files/${realFolderId}?key=${apiKey}&fields=name`
         );
@@ -81,7 +108,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
         const folderData = await folderResponse.json();
         setPhotosetName(folderData.name || '');
 
-        // 2) List media files (images + videos) in folder
+       
         // This query gets files with mimeType containing 'image' or 'video'
         const mediaResponse = await fetch(
           `https://www.googleapis.com/drive/v3/files?q='${realFolderId}'+in+parents+and+(mimeType+contains+'image'+or+mimeType+contains+'video')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=500`
@@ -122,7 +149,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
         const mainVideoToShow = backstageVideo || categories.videos[0] || null;
         setMainVideo(mainVideoToShow);
 
-        // 3) Try to find a plain text "descriptions" file (.txt preferred)
+       
         // First search for plain text file named 'descriptions'
         const descriptionsResponse = await fetch(
           `https://www.googleapis.com/drive/v3/files?q='${realFolderId}'+in+parents+and+(name='descriptions' or name='descriptions.txt')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=1`
@@ -245,7 +272,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey }) => {
 
     fetchPhotosetDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [photosetId, apiKey]);
+  }, [slug, apiKey]);
 
   // Build reliable URLs for thumbnails/previews/full view
   const getMediaUrl = (file: DriveFile, size: 'thumbnail' | 'full' = 'thumbnail') => {
