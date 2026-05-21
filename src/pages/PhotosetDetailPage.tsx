@@ -375,7 +375,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
         {/* Back button and title */}
         <div className="flex items-center mb-12">
           <button
-            onClick={() => navigate('/photosets')}
+            onClick={() => navigate('/projects')}
             className="flex items-center gap-3 text-white hover:text-gray-300 transition-colors duration-200 mr-8"
           >
             <ArrowLeft className="w-6 h-6" />
