@@ -4,10 +4,10 @@ import { ArrowLeft, X, ChevronLeft, ChevronRight, Instagram, Youtube, Facebook, 
 import { useLanguage } from '../contexts/LanguageContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import DriveVideoPlayer from '../components/DriveVideoPlayer';
+import type { DriveVideoFile } from '../components/DriveVideoPlayer';
 
-interface DriveFile {
-  id: string;
-  name: string;
+interface DriveFile extends DriveVideoFile {
   mimeType: string;
   webContentLink?: string;
 }
@@ -49,6 +49,23 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
   const [error, setError] = useState<string | null>(null);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number | null>(null);
   const [mainVideo, setMainVideo] = useState<DriveFile | null>(null);
+
+
+  const isModalOpen = selectedMediaIndex !== null;
+  useEffect(() => {
+    if (!isModalOpen) return;
+    document.querySelectorAll('video').forEach(video => video.pause());
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedMediaIndex(null);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
 
 
 
@@ -111,7 +128,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
        
         // This query gets files with mimeType containing 'image' or 'video'
         const mediaResponse = await fetch(
-          `https://www.googleapis.com/drive/v3/files?q='${realFolderId}'+in+parents+and+(mimeType+contains+'image'+or+mimeType+contains+'video')&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=500`
+          `https://www.googleapis.com/drive/v3/files?q='${realFolderId}'+in+parents+and+(mimeType+contains+'image'+or+mimeType+contains+'video')&key=${apiKey}&fields=files(id,name,mimeType,videoMediaMetadata)&pageSize=500`
         );
 
         if (!mediaResponse.ok) {
@@ -297,14 +314,11 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
   };
 
   // Open modal for a specific index within a category
-  const openModal = (index: number) => {
-    const current = getCurrentMedia();
-    if (!current || current.length === 0) {
-      setSelectedMediaIndex(null);
-      return;
-    }
-    const safeIndex = Math.max(0, Math.min(index, current.length - 1));
-    setSelectedMediaIndex(safeIndex);
+  const openModal = (index: number, category: 'photos' | 'videos' | 'backstage') => {
+    const current = mediaCategories[category];
+    if (current.length === 0) return;
+    setActiveCategory(category);
+    setSelectedMediaIndex(Math.max(0, Math.min(index, current.length - 1)));
   };
 
   const closeModal = () => {
@@ -371,7 +385,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
     <div className="min-h-screen bg-black text-white">
       <Header />
 
-      <div className="container mx-auto px-8 py-16 max-w-7xl">
+      <div className="container mx-auto px-4 md:px-8 py-16 max-w-7xl">
         {/* Back button and title */}
         <div className="flex items-center mb-12">
           <button
@@ -412,16 +426,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
         {/* Main Video Section - Full width under description */}
         {mainVideo && (
           <div className="w-full mb-16">
-            <div className="relative w-full h-0 pb-[56.25%] bg-gray-900 rounded-lg overflow-hidden"> {/* 16:9 aspect ratio */}
-              <iframe
-                src={`https://drive.google.com/file/d/${mainVideo.id}/preview?rm=minimal`}
-                className="absolute top-0 left-0 w-full h-full border-none"
-                allow="autoplay; fullscreen"
-                allowFullScreen
-                title={mainVideo.name}
-                sandbox="allow-same-origin allow-scripts allow-popups allow-presentation"
-              />
-            </div>
+            <DriveVideoPlayer key={mainVideo.id} file={mainVideo} apiKey={apiKey} />
           </div>
         )}
 
@@ -437,8 +442,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
                   key={file.id}
                   className="bg-gray-800 rounded-lg overflow-hidden cursor-pointer group relative aspect-square"
                   onClick={() => {
-                    setActiveCategory('videos');
-                    openModal(index);
+                    openModal(index, 'videos');
                   }}
                 >
                   <img
@@ -483,8 +487,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
                   key={file.id}
                   className="bg-gray-800 rounded-lg overflow-hidden cursor-pointer group relative aspect-square"
                   onClick={() => {
-                    setActiveCategory('photos');
-                    openModal(index);
+                    openModal(index, 'photos');
                   }}
                 >
                   <img
@@ -520,8 +523,7 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
                   key={file.id}
                   className="bg-gray-800 rounded-lg overflow-hidden cursor-pointer group relative aspect-[16/9]"
                   onClick={() => {
-                    setActiveCategory('backstage');
-                    openModal(index);
+                    openModal(index, 'backstage');
                   }}
                 >
                   {file.mimeType.includes('video') ? (
@@ -586,20 +588,11 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
         const file = current[selectedMediaIndex];
 
         return (
-          <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center">
-            <div className="max-w-7xl max-h-[90vh] mx-auto px-6 w-full h-full">
-              <div className="relative w-full h-full flex items-center justify-center">
+          <div role="dialog" aria-modal="true" aria-label={file.name} className="media-modal fixed inset-0 bg-black/95 z-50">
+            <div className="media-modal-content">
+              <div className="relative w-full h-full flex items-center justify-center min-h-0">
                 {file.mimeType.includes('video') ? (
-                  <div className="w-full h-full max-w-6xl max-h-[80vh]">
-                    <iframe
-                      // IMPORTANT: use /preview for embedable url
-                      src={`https://drive.google.com/file/d/${file.id}/preview?rm=minimal`}
-                      className="w-full h-full border-none rounded-lg"
-                      allow="autoplay; fullscreen"
-                      allowFullScreen
-                      title={file.name}
-                    />
-                  </div>
+                  <DriveVideoPlayer key={file.id} file={file} apiKey={apiKey} modal />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <img
@@ -625,26 +618,29 @@ const PhotosetDetailPage: React.FC<PhotosetDetailPageProps> = ({ apiKey, photose
 
             <button
               onClick={closeModal}
-              className="absolute top-6 right-6 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors duration-200"
+              aria-label={t('photosets.closeMedia')}
+              className="media-modal-close absolute w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors duration-200"
             >
               <X className="w-6 h-6" />
             </button>
 
             <button
               onClick={prevMedia}
-              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors duration-200"
+              aria-label={t('photosets.previousMedia')}
+              className="media-modal-prev absolute w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors duration-200"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
 
             <button
               onClick={nextMedia}
-              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors duration-200"
+              aria-label={t('photosets.nextMedia')}
+              className="media-modal-next absolute w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors duration-200"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
 
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/50 px-6 py-3 rounded-full text-center">
+            <div className="media-modal-counter absolute bg-black/50 px-4 py-3 rounded-full text-center">
               <div className="text-sm text-gray-300">
                 {selectedMediaIndex + 1} / {current.length}
                 {file.mimeType.includes('video') && (

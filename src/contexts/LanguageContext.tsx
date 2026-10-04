@@ -91,6 +91,11 @@ const translations: Translations = {
     'photosets.photos': 'Photo',
     'photosets.videos': 'Video',
     'photosets.backstage': 'Backstage',
+    'photosets.videoUnavailable': 'Video cannot be played in this browser.',
+    'photosets.openVideo': 'Open video in Google Drive',
+    'photosets.closeMedia': 'Close viewer',
+    'photosets.previousMedia': 'Previous media',
+    'photosets.nextMedia': 'Next media',
     'photosets.noPhotosets': 'No photosets found',
     'photosets.noPhotosetsDescription': 'Make sure there are folders with images in the specified directory',
 
@@ -197,6 +202,11 @@ const translations: Translations = {
     'photosets.photos': 'Foto',
     'photosets.videos': 'Video',
     'photosets.backstage': 'Backstage',
+    'photosets.videoUnavailable': 'Das Video kann in diesem Browser nicht abgespielt werden.',
+    'photosets.openVideo': 'Video in Google Drive öffnen',
+    'photosets.closeMedia': 'Ansicht schließen',
+    'photosets.previousMedia': 'Vorherige Datei',
+    'photosets.nextMedia': 'Nächste Datei',
     'photosets.noPhotosets': 'Keine Fotosets gefunden',
     'photosets.noPhotosetsDescription': 'Stellen Sie sicher, dass es Ordner mit Bildern im angegebenen Verzeichnis gibt',
 
